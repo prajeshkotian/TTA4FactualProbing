@@ -1,7 +1,7 @@
 # Test-time Augmentation for Factual Probing
 
 
-This repository contains code and data for the CS678 Project report based on the paper EMNLP 2023 Findings paper *Test-time Augmentation for Factual Probing* by Go Kamoda, Benjamin Heinzerling, Keisuke Sakaguchi and Kentaro Inui. The project is done by Joshua Hilbert, Prajesh Kotian and Durga VenkatRam.
+This repository contains code and data for the CS678 Project report based on the paper EMNLP 2023 Findings paper *Test-time Augmentation for Factual Probing* by Go Kamoda, Benjamin Heinzerling, Keisuke Sakaguchi and Kentaro Inui(https://aclanthology.org/2023.findings-emnlp.236.pdf). The project is done by Joshua Hilbert, Prajesh Kotian and Durga VenkatRam.
 
 ## Preparations
 1. Clone this repository
