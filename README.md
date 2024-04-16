@@ -96,6 +96,7 @@ This repository contains code and data for the CS678 Project report based on the
   ```
   See `config/model/` for avialable models. Change configurations according to your computation environment.
 
+  The output file will be stored in /outputs directory.
   To run unit tests run the following command.
   
 
