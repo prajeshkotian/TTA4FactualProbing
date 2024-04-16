@@ -1,7 +1,7 @@
 # Test-time Augmentation for Factual Probing
 
 
-This repository contains code and data for the EMNLP 2023 Findings paper *Test-time Augmentation for Factual Probing* by Go Kamoda, Benjamin Heinzerling, Keisuke Sakaguchi and Kentaro Inui.
+This repository contains code and data for the CS678 Project report based on the paper EMNLP 2023 Findings paper *Test-time Augmentation for Factual Probing* by Go Kamoda, Benjamin Heinzerling, Keisuke Sakaguchi and Kentaro Inui. The project is done by Joshua Hilbert, Prajesh Kotian and Durga VenkatRam.
 
 ## Preparations
 1. Clone this repository
@@ -9,6 +9,7 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
    - `datasets/` contains the dataset we used, which was extracted from WikiData.
    - `src/` contains codes for running experiments and analyses.
 2. Install dependencies (use requirements.txt)
+3. Additionally install dependency for openai `pip install openai`
 
 ## Running Experiments
 ### Overview
@@ -94,4 +95,7 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
   python src/main.py model=t5-large
   ```
   See `config/model/` for avialable models. Change configurations according to your computation environment.
+
+  To run unit tests run the following command.
+  
 
