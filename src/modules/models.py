@@ -3,7 +3,12 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 def default(model_path: str, device_map):
     tokenizer = AutoTokenizer.from_pretrained(model_path)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map=device_map)
+    if device_map == 'auto':
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map=device)
+    else:
+        model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map=device_map)
+   # model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map=device_map)
     return model, tokenizer
     
 def get_model(params):

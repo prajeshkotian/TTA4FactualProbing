@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from omegaconf import DictConfig, ListConfig, OmegaConf
 from torch.utils.data import DataLoader
+from io import StringIO # Ram Change
 
 
 from modules.mylogger import init_logging
@@ -20,8 +21,8 @@ class Facts():
             slack=cfg.logger.slack,
             sh=slack_handler
         )
-
-        self.df = pd.read_json(cfg.dataset.path, lines=True)
+        print(cfg.dataset.path);
+        self.df = pd.read_json("/home/pkotian/TTA4FactualProbing/datasets/wikidata12500.jsonl", lines=True)
         # self.df = self.df.head(10)
         self.logger.info(f'Facts: {self.df.shape[0]}')
 

@@ -17,7 +17,7 @@ class Aggregator():
         generations: Generations,
         sh
     ) -> None:
-        self.logger, _ = init_logging('Aggregator', cfg.log_dir, cfg.filename, reset=False, slack=True, sh=sh)
+        self.logger, _ = init_logging('Aggregator', cfg.log_dir, cfg.filename, reset=False, slack=False, sh=sh)
         
         self.gold_answer = facts.df['os']
         self.prompts = prompts
@@ -50,7 +50,7 @@ class Aggregator():
                     self.aggregation_to_do += [
                         (   self._random_sample,
                             {
-                                'seed': i,
+                                'seed': i*7,
                                 'num_prompts': j,
                                 'sh': sh,
                                 'aggregation_function': aggregation_functions[cfg.aggregation_method.function],

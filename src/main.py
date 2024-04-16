@@ -1,4 +1,5 @@
 import hydra
+import pickle
 from omegaconf import DictConfig, ListConfig, OmegaConf, open_dict
 from modules.mylogger import init_logging
 from modules.df_classes import Facts, Prompts, Generations
@@ -38,6 +39,9 @@ def main(cfg: DictConfig):
 
     # generate
     generations = Generations(cfg, facts, prompts, slack_handler)
+
+    with open('generations.file', 'wb') as file:
+        pickle.dump(generations, file)
 
     if cfg.model.generation_split == None:
 
