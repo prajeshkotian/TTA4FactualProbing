@@ -19,7 +19,7 @@ This repository contains code and data for the CS678 Project report based on the
 ### Details
 - To run the Augmentation tests, run the following code:
   ```
-  python src/TestAugmentation.py
+  python src/TestAugmenter.py
   ```
 
 - To run TTA on default setting, run the following code. It will 1) get datasset with original prompts, 2) augment prompts, 3) generate answer candidate, and 4) aggregate the generated answers.
