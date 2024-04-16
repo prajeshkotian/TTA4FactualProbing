@@ -17,6 +17,11 @@ This repository contains code and data for the CS678 Project report based on the
 - Logs, results, and run settings will be stored into `outputs` directory.
 
 ### Details
+- To run the Augmentation tests, run the following code:
+  ```
+  python src/TestAugmentation.py
+  ```
+
 - To run TTA on default setting, run the following code. It will 1) get datasset with original prompts, 2) augment prompts, 3) generate answer candidate, and 4) aggregate the generated answers.
   ```
   python src/main.py
