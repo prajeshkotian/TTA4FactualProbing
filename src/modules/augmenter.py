@@ -10,7 +10,7 @@ from torch.utils.data import Dataset, DataLoader
 import openai
 import re
 import os
-
+import sys
 
 
 from textattack.augmentation import Augmenter, WordNetAugmenter
@@ -62,7 +62,6 @@ def augment_head(original_df: pd.DataFrame, method_name: str, args: DictConfig) 
     return augmented_prompts
 
 def openai_paraphrase(original_df: pd.DataFrame, model: str, num_return_sequences: int, label: str) -> pd.DataFrame:
-     
     args = {
         'model': model,
         'max_tokens': 1024,
@@ -76,32 +75,45 @@ def openai_paraphrase(original_df: pd.DataFrame, model: str, num_return_sequence
 
     def paraphrase(row):
         original_prompt = row['prompt']
-        prompt = "Would you provide 10 paraphrases for the following question?\n{}".format(original_prompt)
-
+        prompt = "Would you provide " + str(num_return_sequences) + " paraphrases for the following question?\n{}".format(original_prompt)
         response = None
-        received = False
-        while not received:
+        attempts = 0
+        max_attempts = 10
+
+        while attempts < max_attempts and response is None:
             try:
-                response = openai.Completion.create(
-                    prompt=prompt,
-                    **args
-                )
-                received = True
-            except:
-                error = sys.exc_info()[0]
-                if error == openai.error.InvalidRequestError: # something is wrong: e.g. prompt too long
-                    print(f"InvalidRequestError\nPrompt passed in:\n\n{prompt}\n\n")
-                    assert False
-                print("API error:", error)
-                time.sleep(1)
-        
-        prompts = response["choices"][0]["text"]
-        prompts = prompts.strip().split('\n')
-        prompts = [format_pattern.match(prompt).group(1).strip() for prompt in prompts]
-        n_more_prompts = num_return_sequences - len(prompts)
-        prompts += ['']*n_more_prompts
-        assert len(prompts) == num_return_sequences, 'could not get enough augmented prompts'
-        row['augmented_prompt'] = prompts
+                response = openai.Completion.create(prompt=prompt, **args)
+                
+                response_text = response["choices"][0]["text"].strip()
+                if response_text is None or response_text == '':
+                    print("Try " + str(attempts + 1) + " of " + str(max_attempts) + ": Failed for prompt: " + original_prompt)
+                    attempts += 1
+                    time.sleep(1)
+                    continue
+
+            except Exception as e:
+                print("API error:", e)
+                print("Try " + str(attempts + 1) + " of " + str(max_attempts) + ": Failed for prompt: " + original_prompt)
+                time.sleep(1)  # brief delay before retrying
+                attempts += 1
+
+        if response is None:
+            print("Api failed 10 times for prompt: " + original_prompt)
+            return row['prompt']
+
+        prompts = response["choices"][0]["text"].strip().split('\n')
+        augmented_prompts = []
+        for prompt in prompts:
+            match = format_pattern.match(prompt)
+            if match:
+                augmented_prompts.append(match.group(1).strip())
+            else:
+                print(f"No match found for prompt: {prompt}")
+
+        n_more_prompts = num_return_sequences - len(augmented_prompts)
+        augmented_prompts += ['']*n_more_prompts
+        assert len(augmented_prompts) == num_return_sequences, 'Could not get enough augmented prompts'
+        row['augmented_prompt'] = augmented_prompts
         return row
 
     original_df = original_df.apply(paraphrase, axis=1)
@@ -109,12 +121,12 @@ def openai_paraphrase(original_df: pd.DataFrame, model: str, num_return_sequence
     augmented_prompts = original_df['augmented_prompt'].to_list()
     augmented_prompts = list(itertools.chain.from_iterable(augmented_prompts))
 
-    assert len(augmented_prompts) == num_return_sequences * original_df.shape[0], 'could not get enough augmented prompts'
+    assert len(augmented_prompts) == num_return_sequences * original_df.shape[0], 'Could not get enough augmented prompts'
     
-    fact_id = [x for x in range(0, original_df.shape[0]) for _ in range(num_return_sequences)]
+    fact_id = [x for x in range(original_df.shape[0]) for _ in range(num_return_sequences)]
     augmented_prompts_df = pd.DataFrame({'fact_id': fact_id, 'score': 1, 'prompt': augmented_prompts, 'label': label})
 
-    return augmented_prompts
+    return augmented_prompts_df
 
 def word_swapping(original_df: pd.DataFrame, type: str, num_return_sequences: int, label: str) -> pd.DataFrame:
     augmenters = {
