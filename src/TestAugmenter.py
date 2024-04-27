@@ -1,9 +1,25 @@
 import unittest
 from unittest.mock import patch, Mock
 import pandas as pd
-from modules.augmenter import word_swapping, stopword_filtering, back_translation
+from modules.augmenter import word_swapping, stopword_filtering, back_translation, openai_paraphrase
 
 class TestAugmenter(unittest.TestCase):
+    def test_openai_paraphrase(self):
+        test_df = pd.DataFrame({
+            'prompt': ['What is the capital of France?']
+        })
+        num_return_sequences = 10
+        label = 'test'
+
+        result_df = openai_paraphrase(test_df, 'gpt-3.5-turbo-instruct', num_return_sequences, label)
+
+        print('\n')
+        print('openai_paraphrase')
+        print(result_df)
+        print('\n')
+        self.assertIsInstance(result_df, pd.DataFrame)
+        assert len(result_df) == num_return_sequences
+
     def test_word_swapping(self):
         test_df = pd.DataFrame({
             'prompt': ['What is the capital of France?']
