@@ -6,21 +6,21 @@ word_swapping:
     num_return_sequences: 4
     label: word_swapping_wordnet
 back_translation:
-  - target_language: fr
+  - target_language: en
     num_return_sequences: 4
-    label: back_translation_fr
-  - target_language: ru
-    num_return_sequences: 4
-    label: back_translation_ru
+    label: back_translation_en
+    #- target_language: ru
+    #num_return_sequences: 4
+    #label: back_translation_ru
   - target_language: de
     num_return_sequences: 4
     label: back_translation_de
-  - target_language: es
+  - target_language: fi
     num_return_sequences: 4
-    label: back_translation_es
-  - target_language: jap
+    label: back_translation_fi
+  - target_language: sv
     num_return_sequences: 4
-    label: back_translation_ja
+    label: back_translation_sv
 stopwords_filtering:
   - num_return_sequences: 1 # fixed
     label: stopwords_filtering

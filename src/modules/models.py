@@ -8,8 +8,9 @@ def default(model_path: str, device_map):
         model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map=device)
     else:
         model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map=device_map)
-   # model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map=device_map)
+    #model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map=device_map)
     return model, tokenizer
+
     
 def get_model(params):
     

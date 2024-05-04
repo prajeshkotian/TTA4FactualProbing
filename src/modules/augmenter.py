@@ -167,14 +167,14 @@ def back_translation(original_df: pd.DataFrame, target_language: str, num_return
     sequence_per_transform = num_return_sequences * 2
     lm_src2tar = {
         'family': 'marianmt',
-        'label': 'en-{}'.format(target_language),
-        'model_path': 'Helsinki-NLP/opus-mt-en-{}'.format(target_language),
+        'label': 'es-{}'.format(target_language),
+        'model_path': 'Helsinki-NLP/opus-mt-zh-{}'.format(target_language),
         'device_map': 'auto'
     }
     lm_tar2src = {
         'family': 'marianmt',
-        'label': '{}-en'.format(target_language),
-        'model_path': 'Helsinki-NLP/opus-mt-{}-en'.format(target_language),
+        'label': '{}-es'.format(target_language),
+        'model_path': 'Helsinki-NLP/opus-mt-{}-zh'.format(target_language),
         'device_map': 'auto'
     }
 
