@@ -22,7 +22,7 @@ class Facts():
             sh=slack_handler
         )
         print(cfg.dataset.path);
-        self.df = pd.read_json("/home/pkotian/TTA4FactualProbing__Duplicate/datasets/wikidata12500.jsonl", lines=True)
+        self.df = pd.read_json("/scratch/dtangira/TTA4FactualProbing/datasets/wikidata12500.jsonl", lines=True)
         # self.df = self.df.head(10)
         self.logger.info(f'Facts: {self.df.shape[0]}')
 
@@ -52,7 +52,7 @@ class Prompts():
         self.cache_dir = cfg.dataset.name
         
         # create dir if does not exist
-        os.makedirs(f'cache_Duplicate/augmented_prompts/{self.cache_dir}', exist_ok=True)
+        os.makedirs(f'cache/augmented_prompts/{self.cache_dir}', exist_ok=True)
 
         # get original prompts
         all_prompts = facts.df[['prompt']].copy()
@@ -66,7 +66,7 @@ class Prompts():
         for method in cfg.augment_methods.keys():
             for args in cfg.augment_methods[method]:
                 self.logger.info(f'augmenting with {method} with args: {args}')
-                cache_path = f'cache_Duplicate/augmented_prompts/{self.cache_dir}/{args["label"]}.jsonl'
+                cache_path = f'cache/augmented_prompts/{self.cache_dir}/{args["label"]}.jsonl'
                 print(cache_path)
                 if os.path.exists(cache_path):
                     augmented_prompt_df = pd.read_json(cache_path, orient='records', lines=True)
@@ -136,7 +136,6 @@ class Generations():
         df = facts_df.loc[:, ["os"]]
         df["len"] = df.apply(lambda row: len(tokenizer(row["os"], return_tensors="pt").input_ids[0]), axis=1)
         max_tokens = df["len"].max()
-        print(max_tokens,' :max_token')
         assert max_tokens <= cfg.generation_args.max_new_tokens, f'max_tokens: {max_tokens}'
 
     def _combine_generations(self, cfg: DictConfig):

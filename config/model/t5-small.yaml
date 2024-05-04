@@ -1,6 +1,6 @@
-name: t5-small
+name: t5-base-spanish
 family: t5
-model_path: google/t5-small-ssm-nq
+model_path: vgaraujov/t5-base-spanish
 device_map: auto
 generation_split: null
 generation_combine: null
