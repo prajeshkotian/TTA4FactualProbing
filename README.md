@@ -18,7 +18,7 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
 ### Details
 - To run TTA on default setting, run the following code. It will 1) get datasset with original prompts, 2) augment prompts, 3) generate answer candidate, and 4) aggregate the generated answers.
   ```
-  python src/main.py
+  python src/main.py model=mt5-small
   ```
   - The outputs would start like this:
     ```
@@ -27,9 +27,9 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
         name: wikidata12500
         path: datasets/wikidata12500.jsonl
     model:
-        name: t5-small
+        name: mt5-small
         family: t5
-        model_path: google/t5-small-ssm-nq
+        model_path: google/mt5-small
         device_map: auto
         generation_split: null
         generation_combine: null
@@ -43,21 +43,18 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
             num_return_sequences: 4
             label: word_swapping_wordnet
         back_translation:
-        - target_language: fr
+        - target_language: en
             num_return_sequences: 4
-            label: back_translation_fr
-        - target_language: ru
-            num_return_sequences: 4
-            label: back_translation_ru
+            label: back_translation_en
         - target_language: de
             num_return_sequences: 4
             label: back_translation_de
-        - target_language: es
+        - target_language: fi
             num_return_sequences: 4
-            label: back_translation_es
-        - target_language: jap
+            label: back_translation_fi
+        - target_language: sv
             num_return_sequences: 4
-            label: back_translation_ja
+            label: back_translation_sv
         stopwords_filtering:
         - num_return_sequences: 1
             label: stopwords_filtering
@@ -67,7 +64,7 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
         return_dict_in_generate: true
         num_beams: 10
         num_return_sequences: 10
-        max_new_tokens: 10
+        max_new_tokens: 18
     aggregation_method:
         name: random_sample
         iter_num: 5
