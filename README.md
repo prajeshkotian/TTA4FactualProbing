@@ -27,9 +27,9 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
         name: wikidata12500
         path: datasets/wikidata12500.jsonl
     model:
-        name: t5-small
+        name: t5-base-spanish
         family: t5
-        model_path: google/t5-small-ssm-nq
+        model_path: vgaraujov/t5-base-spanish
         device_map: auto
         generation_split: null
         generation_combine: null
@@ -43,21 +43,18 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
             num_return_sequences: 4
             label: word_swapping_wordnet
         back_translation:
-        - target_language: fr
-            num_return_sequences: 4
-            label: back_translation_fr
-        - target_language: ru
-            num_return_sequences: 4
-            label: back_translation_ru
         - target_language: de
             num_return_sequences: 4
             label: back_translation_de
-        - target_language: es
+        - target_language: fi
             num_return_sequences: 4
-            label: back_translation_es
-        - target_language: jap
+            label: back_translation_fi
+        - target_language: en
             num_return_sequences: 4
-            label: back_translation_ja
+            label: back_translation_en
+        - target_language: ru
+            num_return_sequences: 4
+            label: back_translation_ru
         stopwords_filtering:
         - num_return_sequences: 1
             label: stopwords_filtering
@@ -67,7 +64,7 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
         return_dict_in_generate: true
         num_beams: 10
         num_return_sequences: 10
-        max_new_tokens: 10
+        max_new_tokens: 12
     aggregation_method:
         name: random_sample
         iter_num: 5
@@ -89,7 +86,7 @@ This repository contains code and data for the EMNLP 2023 Findings paper *Test-t
     2023-10-25 13:55:59,250/INFO/Prompts/__init__():67
     augmenting with word_swapping with args: {'type': 'wordswap', 'num_return_sequences': 4, 'label': 'word_swapping_wordswap'}
     ```
-- By default, the code will run using T5-Small model. To change the model, use something like the following
+- By default, the code will run using t5-base-spanish. To change the model, use something like the following
   ```
   python src/main.py model=t5-large
   ```
